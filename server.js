@@ -28,7 +28,7 @@ app.get("/form", function (req, res) {
 
 app.post("/form", function (req, res) {
   console.log(req.body);
-  res.render("success_view");
+  res.render("success_view", req.body);
 });
 
 app.get("/about", function (req, res) {
