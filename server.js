@@ -134,7 +134,7 @@ app.get("/", function (req, res) {
   });
 });
 
-app.get("/:id", function (req, res) {
+app.get("/name/:id", function (req, res) {
   Name.find({ _id: req.params.id }, function (err, response) {
     if (err) return;
     console.log(response);
