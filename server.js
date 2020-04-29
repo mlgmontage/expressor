@@ -2,6 +2,14 @@ const express = require("express");
 const app = express();
 const dogs = require("./routes/dogs");
 const bodyParser = require("body-parser");
+// graphq
+const expressGraphQL = require("express-graphql");
+const {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+} = require("graphql");
 
 // database
 const mongoose = require("mongoose");
@@ -16,6 +24,27 @@ const namesSchema = mongoose.Schema({
 });
 
 const Name = mongoose.model("names", namesSchema);
+
+// graphQL Schema
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: "helloworld",
+    fields: () => ({
+      message: {
+        type: GraphQLString,
+        resolve: () => "Hello, world",
+      },
+    }),
+  }),
+});
+
+app.use(
+  "/graphql",
+  expressGraphQL({
+    schema: schema,
+    graphiql: true,
+  })
+);
 
 // view engine
 app.set("view engine", "pug");
