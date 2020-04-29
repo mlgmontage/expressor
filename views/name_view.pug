@@ -5,8 +5,4 @@ html(lang="en")
     title=title
   body
     h1 (This is title) #{title}
-    p=content
-    ul
-      each name in data
-        li= name.name
-        a(href = `/${name.id}`) read more
+    h2 #{data}

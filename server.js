@@ -34,6 +34,10 @@ const schema = new GraphQLSchema({
         type: GraphQLString,
         resolve: () => "Hello, world",
       },
+      sample: {
+        type: GraphQLInt,
+        resolve: () => 420,
+      },
     }),
   }),
 });
@@ -62,6 +66,17 @@ app.get("/", function (req, res) {
     res.render("home_view", {
       title: "Dynamic view",
       content: "Dynamic view content",
+      data: response,
+    });
+  });
+});
+
+app.get("/:id", function (req, res) {
+  Name.find({ _id: req.params.id }, function (err, response) {
+    if (err) return;
+    console.log(response);
+    res.render("name_view", {
+      title: "Dynamic view",
       data: response,
     });
   });
