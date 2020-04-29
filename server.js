@@ -6,6 +6,9 @@ const dogs = require("./routes/dogs");
 app.set("view engine", "pug");
 app.set("views", "./views");
 
+// serving static content
+// app.use(express.static('public'));
+
 app.get("/", function (req, res) {
   res.render("home_view", {
     title: "Dynamic view",
