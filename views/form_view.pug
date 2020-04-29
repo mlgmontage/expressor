@@ -1,0 +1,17 @@
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Form
+  body
+    h1=title
+    form(action = "/form", method = "POST")
+      div
+        label(for = "say") Say:
+        input(name="say" placeholder = "Hi")
+      br
+      div
+        label(for = "message") Message:
+        input(name="message" placeholder="message")
+      br
+      button(type="submit") Send request
