@@ -7,7 +7,10 @@ app.set("view engine", "pug");
 app.set("views", "./views");
 
 app.get("/", function (req, res) {
-  res.render("home_view");
+  res.render("home_view", {
+    title: "Dynamic view",
+    content: "Dynamic view content",
+  });
 });
 
 app.get("/about", function (req, res) {
