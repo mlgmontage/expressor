@@ -1,8 +1,15 @@
 const express = require("express");
 const app = express();
+const dogs = require("./routes/dogs");
+
+// view engine
+app.set("view engine", "pug");
+app.set("views", "./views");
 
 app.get("/", function (req, res) {
-  res.send("hello, world");
+  res.render("home_view");
 });
+
+app.use("/dogs", dogs);
 
 app.listen(3000);
