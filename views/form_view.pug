@@ -7,11 +7,7 @@ html(lang="en")
     h1=title
     form(action = "/form", method = "POST")
       div
-        label(for = "say") Say:
-        input(name="say" placeholder = "Hi")
-      br
-      div
-        label(for = "message") Message:
-        input(name="message" placeholder="message")
+        label(for = "name") Name:
+        input(name="name" placeholder = "enter a name")
       br
       button(type="submit") Send request

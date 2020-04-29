@@ -3,6 +3,20 @@ const app = express();
 const dogs = require("./routes/dogs");
 const bodyParser = require("body-parser");
 
+// database
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/expressor", {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+
+// Schema
+const namesSchema = mongoose.Schema({
+  name: String,
+});
+
+const Name = mongoose.model("names", namesSchema);
+
 // view engine
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -28,7 +42,16 @@ app.get("/form", function (req, res) {
 
 app.post("/form", function (req, res) {
   console.log(req.body);
-  res.render("success_view", req.body);
+  // saving to database
+  const newName = new Name({
+    name: req.body.name,
+  });
+
+  newName.save(function (err, Name) {
+    if (!err) {
+      res.render("success_view", req.body);
+    }
+  });
 });
 
 app.get("/about", function (req, res) {
