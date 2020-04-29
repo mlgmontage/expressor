@@ -6,3 +6,6 @@ html(lang="en")
   body
     h1 (This is title) #{title}
     p=content
+    ul
+      each name in data
+        li= name.name

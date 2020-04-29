@@ -28,9 +28,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.static('public'));
 
 app.get("/", function (req, res) {
-  res.render("home_view", {
-    title: "Dynamic view",
-    content: "Dynamic view content",
+  Name.find({}, function (err, response) {
+    if (err) return;
+    res.render("home_view", {
+      title: "Dynamic view",
+      content: "Dynamic view content",
+      data: response,
+    });
   });
 });
 
