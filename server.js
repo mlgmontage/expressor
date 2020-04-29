@@ -9,6 +9,8 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
+  GraphQLNonNull,
+  GraphQLList,
 } = require("graphql");
 
 // database
@@ -18,14 +20,70 @@ mongoose.connect("mongodb://localhost:27017/expressor", {
   useNewUrlParser: true,
 });
 
-// Schema
+// Database Schema
 const namesSchema = mongoose.Schema({
   name: String,
 });
 
+// const authors = mongoose.Schema({
+//   name: String,
+// });
+
+// const books = mongoose.Schema({
+//   name: String,
+//   authorId: String,
+// });
+
 const Name = mongoose.model("names", namesSchema);
+// const Author = mongoose.model("authors", authors);
+// const Books = mongoose.model("books", books);
+
+const author = [
+  { id: 1, name: "J. K. Rowling" },
+  { id: 2, name: "J. R. R. Tolkien" },
+  { id: 3, name: "Brent Weeks" },
+];
+
+const books = [
+  { id: 1, name: "Harry Potter and the Chamber of Secters", authorId: 1 },
+  { id: 2, name: "The Fellowship of the Ring", authorId: 2 },
+  { id: 3, name: "The Two Towers", authorId: 3 },
+  { id: 4, name: "Beyond the Shadows", authorId: 2 },
+];
 
 // graphQL Schema
+
+const BookType = new GraphQLObjectType({
+  name: "Book",
+  description: "This is books",
+  fields: () => ({
+    id: { type: GraphQLNonNull(GraphQLInt) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    authorId: { type: GraphQLNonNull(GraphQLInt) },
+    author: {
+      type: AuthorType,
+      resolve: (book) => {
+        return author.find((author) => author.id === book.authorId);
+      },
+    },
+  }),
+});
+
+const AuthorType = new GraphQLObjectType({
+  name: "Author",
+  description: "This is authors",
+  fields: () => ({
+    id: { type: GraphQLNonNull(GraphQLInt) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve: (author) => {
+        return books.filter((book) => book.authorId === author.id);
+      },
+    },
+  }),
+});
+
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: "helloworld",
@@ -37,6 +95,11 @@ const schema = new GraphQLSchema({
       sample: {
         type: GraphQLInt,
         resolve: () => 420,
+      },
+      books: {
+        type: new GraphQLList(BookType),
+        description: "List of books",
+        resolve: () => books,
       },
     }),
   }),
