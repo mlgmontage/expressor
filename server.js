@@ -10,6 +10,10 @@ app.get("/", function (req, res) {
   res.render("home_view");
 });
 
+app.get("/about", function (req, res) {
+  res.render("about_view");
+});
+
 app.use("/dogs", dogs);
 
 app.listen(3000);
